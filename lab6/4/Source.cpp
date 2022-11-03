@@ -1,4 +1,5 @@
 #include <iostream>
+#include <inttypes.h>
 
 using namespace std;
 
@@ -29,5 +30,7 @@ int main(void) {
   }
   cout << endl;
 
+  free(bits);
+  delete[] numbers;
   return 0;
 }
