@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <fstream>
 #include <iostream>
 
@@ -7,12 +6,13 @@ using namespace std;
 int main(void) {
   ifstream fIn("f");
   ofstream fOut("g");
-  const int len = 24;
   string line;
   while (not fIn.eof()) {
     getline(fIn, line);
-    reverse(line.begin(), line.end());
-    fOut << line << endl;
+    for (auto i = line.end() - 1; i >= line.begin(); i--) {
+      fOut << *i;
+    }
+    fOut << endl;
   }
 
   fIn.close();
