@@ -26,7 +26,7 @@ int main() {
   for (int i = 0; i < len_bits; i++) {
     for (int j = 0; j < csize; j++) {
       if ((bits[i] & (mask >> j)) == (mask >> j))
-        cout << i * csize + j << " ";
+        cout << i * csize + j << endl;
     }
   }
   cout << endl;
