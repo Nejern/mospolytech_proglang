@@ -1,36 +1,40 @@
+#include <fstream>
 #include <iostream>
-#include <inttypes.h>
 
 using namespace std;
 
-int main(void) {
-  int n;
-  int max = 0;
-  cout << "Введите размер массива: ";
-  cin >> n;
-  int *numbers = new int[n];
-  int len_numbers;
-  cout << "Введите значения массива:" << endl;
-  for (int i = 0; i < n; i++) {
-    cin >> numbers[i];
-    if (numbers[i] > max)
-      max = numbers[i];
-    len_numbers = i + 1;
+int main() {
+  int array[] = {33, 0, 31, 16, 6, 1, 30};
+  int len_array = 7;
+
+  int max = -1;
+  int csize = sizeof(int) * 8 - 1;
+  cout << "csize: " << csize << endl;
+  for (int i = 0; i < len_array; i++) {
+    if (max < array[i])
+      max = array[i];
   }
-  unsigned char *bits = new unsigned char[max + 1];
-  for (int i = 0; i < max + 1; i++) {
-    bits[i] = 0;
+  int len_bits = max / csize + 1;
+  int bits[len_bits];
+
+  for (int i = 0; i < len_bits; i++) {
+    bits[i] = (0 << (csize - 1));
   }
-  for (int i = 0; i < len_numbers; i++) {
-    bits[numbers[i]] = 1;
+  int mask = (1 << (csize - 1));
+
+  for (int i = 0; i < len_array; i++) {
+    int num = array[i];
+    int cindex = num / csize;
+    int offset = num % csize;
+    bits[cindex] = (bits[cindex] | (mask >> offset));
   }
-  cout << "Результат:" << endl;
-  for (int i = 0; i < max + 1; i++) {
-    if ((int)bits[i] == 1) cout << i << " ";
+
+  for (int i = 0; i < len_bits; i++) {
+    for (int j = 0; j < csize; j++) {
+      if ((bits[i] & (mask >> j)) == (mask >> j))
+        cout << i * csize + j << " ";
+    }
   }
   cout << endl;
-
-  free(bits);
-  delete[] numbers;
   return 0;
 }
